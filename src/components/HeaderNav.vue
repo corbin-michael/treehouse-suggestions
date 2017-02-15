@@ -9,9 +9,9 @@
         </h5>
         <div class="header-links">
           <div class="header-nav" v-if="checkIfLoggedIn">
-            <router-link to="/profile">Profile</router-link>
+            <router-link to="/profile" class="btn btn-default">Profile</router-link>
           </div>
-          <div class="header-nav" v-else>
+          <div class="header-nav" v-if="!checkIfLoggedIn && $route.path != '/profile'">
             <router-link to="/login" class="btn btn-default">Login</router-link>
             <router-link to="/create-account" class="btn btn-success">Create Account</router-link>
           </div>

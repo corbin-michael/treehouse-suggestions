@@ -43,6 +43,7 @@ export default {
       pageTitle: "Create Account",
       user: {
         email: '',
+        username: '',
         password: ''
       }
     }
@@ -52,11 +53,12 @@ export default {
       firebaseApp.auth().createUserWithEmailAndPassword(this.user.email, this.user.password)
       .then(function(response) {
         console.log(response);
+        router.push({path: "/profile"});
       }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // ...
+        console.log(errorMessage);
       });
     }
   }

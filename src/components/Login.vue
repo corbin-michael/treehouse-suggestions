@@ -4,6 +4,10 @@
 
     <div class="container">
       <div class="login-form">
+        <div class="alert alert-danger" role="alert" v-if="error">
+          <p>{{error}}</p>
+        </div>
+
         <form v-on:submit.prevent="loginUser">
           <p id="error"></p>
           <div class="form-group">
@@ -44,22 +48,25 @@ export default {
       user: {
         email: '',
         password: ''
-      }
+      },
+      error: ''
     }
   },
   methods: {
     loginUser: function() {
+      var errorPop = this.error;
       auth.signInWithEmailAndPassword(this.user.email,this.user.password)
-      .then(function(response) {
+      .then( (response) => {
         console.log(response);
         router.push({path: "/"});
       })
-      .catch(function(error) {
+      .catch( (error) => {
         // // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode);
         console.log(errorMessage);
+        this.error = errorMessage;
       });
     }
   }

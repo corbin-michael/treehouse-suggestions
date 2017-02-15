@@ -4,7 +4,7 @@
 
   <div class="container profile-wrap">
     <h4>{{user.email}}</h4>
-    <button v-on:click="logout">Logout</button>
+    <button class="btn btn-danger" v-on:click="logout">Logout</button>
   </div>
 
   <footer-area></footer-area>
@@ -52,5 +52,8 @@ export default {
 
 
 <style scoped>
-
+.profile-wrap button {
+  display: block;
+  margin: 0 auto;
+}
 </style>

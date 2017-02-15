@@ -5,11 +5,14 @@
   <div class="container">
 
     <div class="overview">
-      <p>These are suggestions for the website <a href="http://www.teamtreehouse.com" target="_blank">Treehouse</a> and are intended to bring awareness to the courses we would like them to make.</p>
+      <p>These are suggestions for the website <a href="http://www.teamtreehouse.com" target="_blank">Treehouse</a> and are intended to bring awareness to the courses we would like them to make. This site is not an affiliate of Treehouse, but hope they will look at these suggestions and do something with it.</p>
+      <div class="alert alert-warning" role="alert" v-if="!loggedIn">
+        <p>Please <router-link to="/login">login</router-link> or <router-link to="/create-account">create an account</router-link> to leave suggestions.</p>
+      </div>
     </div>
 
     <div class="username" v-if="loggedIn">
-      <h5>{{user.email}}</h5>
+      <h5>{{user.email}} - {{user.displayName}}</h5>
     </div>
 
     <div class="clearfix" v-if="loggedIn">
@@ -35,11 +38,7 @@
         </form>
       </div>
     </div>
-    <div class="clearfix" v-else>
-      <div class="alert alert-warning" role="alert">
-        <p>Please <router-link to="/login">login</router-link> or <router-link to="/create-account">create an account</router-link> to leave suggestions.</p>
-      </div>
-    </div>
+
 
     <!-- <div class="filter-wrap">
       {{filterBy}}
@@ -52,7 +51,7 @@
     </div> -->
 
     <div class="suggestions-wrap">
-      <div class="panel panel-success suggestion-item" v-for="item in items">
+      <div class="panel panel-default suggestion-item" v-for="item in items">
         <div class="panel-body">
           {{item.comment}}
         </div>
@@ -131,6 +130,11 @@ export default {
   color: #2c3e50;
 }
 
+.overview {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
 label,
 button,
 label input,
@@ -191,7 +195,11 @@ ul li {
 }
 
 .suggestion-item {
+  transition: box-shadow .2s ease-in;
+}
 
+.suggestion-item:hover {
+  box-shadow: 0px 0px 6px 1px #c3c3c3;
 }
 
 </style>
