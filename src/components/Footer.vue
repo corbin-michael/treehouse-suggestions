@@ -11,14 +11,14 @@
         </div>
         <div class="col-sm-6">
           <div class="footer-warning">
-            <p>WARNING: This site is not affiliated with Team Treehouse, but is intended to help them better understand what courses to make in the future. I'm a member of Treehouse and found that they didn't have a place for members to go and talk and vote about what they wanted Treehouse to make next.</p>
+            <p>WARNING: This site is not affiliated with Team Treehouse, but is intended to help them better understand what courses to make in the future. I'm a member of Treehouse and found that the community boards are good, but don't let you give feedback to Treehouse on what courses to make.</p>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12">
           <div class="footer-copyright">
-            <p>&copy; {{date.getFullYear()}}<br /> Created by: Corbin Jensen <br /> <a href="mailto:corbinmjensen@gmail.com">Email Corbin</a></p>
+            <p>&copy; {{date.getFullYear()}}<br /> Created by: Corbin Jensen <br /> <a href="mailto:corbinmjensen@gmail.com?subject=Treehouse Suggestions">Email Corbin</a></p>
           </div>
         </div>
       </div>
