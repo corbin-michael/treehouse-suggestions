@@ -56,9 +56,14 @@ export default {
     createUser: function() {
       var newUserName = this.user.username;
       firebaseApp.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(function(newUser) {
-        //console.log(newUser);
-        console.log("Created User");
+        console.log(newUser);
 
+        // add user to DB under 'users'
+        firebaseApp.database().ref('users').child(newUser.uid).set({
+          username: newUserName
+        });
+
+        // update profile with username aka displayName
         firebaseApp.auth().currentUser.updateProfile({
           displayName: newUserName
         }).then(function() {

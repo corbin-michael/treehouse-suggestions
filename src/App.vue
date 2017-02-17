@@ -59,7 +59,7 @@
             </button>
           </span>
           <span class="badge">{{item.topic}}</span>
-          <p>Uesr: {{item.user}}</p>
+          <p>{{item.user}}</p>
         </div>
       </div>
     </div>
@@ -103,14 +103,12 @@ export default {
   methods: {
     submitSuggestion: function() {
       var newSuggestion = {
-        //name: this.name,
         comment: this.comment,
         topic: this.topicSelected,
-        user: this.user.uid
+        user: this.user.displayName
       };
 
       this.$firebaseRefs.items.push(newSuggestion);
-      //this.name = "";
       this.comment = "";
       this.topicSelected = "";
     },
