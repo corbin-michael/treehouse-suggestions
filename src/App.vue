@@ -1,6 +1,6 @@
 <template>
 <div id="form-page">
-  <header-nav :checkIfLoggedIn="loggedIn" :pageTitle="pageTitle"></header-nav>
+  <header-nav :checkIfLoggedIn="loggedIn" :pageTitle="pageTitle" :username="user.displayName"></header-nav>
 
   <div class="container">
 
@@ -9,10 +9,6 @@
       <div class="alert alert-warning" role="alert" v-if="!loggedIn">
         <p>Please <router-link to="/login">login</router-link> or <router-link to="/create-account">create an account</router-link> to leave suggestions.</p>
       </div>
-    </div>
-
-    <div class="username" v-if="loggedIn">
-      <h5>{{user.email}} - {{user.displayName}}</h5>
     </div>
 
     <div class="clearfix" v-if="loggedIn">
@@ -51,12 +47,19 @@
     </div> -->
 
     <div class="suggestions-wrap">
-      <div class="panel panel-default suggestion-item" v-for="item in items">
+      <div class="panel panel-default suggestion-item" v-for="(item,key) in items">
         <div class="panel-body">
           {{item.comment}}
+          <p>Key: {{item['.key']}}</p>
         </div>
         <div class="panel-footer">
-          <span class="badge">{{item.topic}}</span> - {{item.user}}
+          <span class="dig-it" v-on:click="addDig(item['.key'], user.uid)">
+            <button class="btn btn-default">
+              <i class="fa fa-hand-peace-o" aria-hidden="true"></i> I dig it!
+            </button>
+          </span>
+          <span class="badge">{{item.topic}}</span>
+          <p>Uesr: {{item.user}}</p>
         </div>
       </div>
     </div>
@@ -110,6 +113,12 @@ export default {
       //this.name = "";
       this.comment = "";
       this.topicSelected = "";
+    },
+    addDig: function(itemKey, person) {
+      this.$firebaseRefs.items.child(itemKey).push({
+        person: [person]
+      });
+      console.log("I dig it!");
     }
   },
   beforeMount() {
@@ -196,6 +205,19 @@ ul li {
 
 .suggestion-item {
   transition: box-shadow .2s ease-in;
+}
+
+.panel-footer {
+  position: relative;
+}
+
+.suggestion-item .dig-it {
+  font-size: 18px;
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
 }
 
 .suggestion-item:hover {

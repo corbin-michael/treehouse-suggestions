@@ -7,7 +7,11 @@
       <form v-on:submit.prevent="createUser">
         <div class="form-group">
           <label>Email</label>
-          <input type="email" v-model="user.email"  />
+          <input type="email" v-model="user.email" />
+        </div>
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" v-model="user.username" />
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -50,16 +54,26 @@ export default {
   },
   methods: {
     createUser: function() {
-      firebaseApp.auth().createUserWithEmailAndPassword(this.user.email, this.user.password)
-      .then(function(response) {
-        console.log(response);
-        router.push({path: "/profile"});
+      var newUserName = this.user.username;
+      firebaseApp.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(function(newUser) {
+        //console.log(newUser);
+        console.log("Created User");
+
+        firebaseApp.auth().currentUser.updateProfile({
+          displayName: newUserName
+        }).then(function() {
+          console.log("Hopefully displayname: ");
+        }, function(error) {
+          console.log("error adding: " + error);
+        });
+
       }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorMessage);
       });
+
     }
   }
 }
