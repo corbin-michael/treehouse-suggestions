@@ -30,7 +30,7 @@
 <script>
   export default {
     name: 'headerNav',
-    props: ['checkIfLoggedIn', 'pageTitle', 'username'],
+    props: ['checkIfLoggedIn', 'pageTitle', 'username', 'userID'],
     data() {
       return {
 

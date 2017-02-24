@@ -35,34 +35,7 @@
       </div>
     </div>
 
-
-    <!-- <div class="filter-wrap">
-      {{filterBy}}
-      <p>Filter suggestion by:</p>
-      <div class="filter" v-for="filter in filters">
-        <span v-bind:for="filter">{{filter}}</span>
-        <input type="radio" v-bind:value="filter" v-model="filterBy" v-on:change="filterOn = true" />
-      </div>
-
-    </div> -->
-
-    <div class="suggestions-wrap">
-      <div class="panel panel-default suggestion-item" v-for="(item,key) in items">
-        <div class="panel-body">
-          {{item.comment}}
-          <p>Key: {{item['.key']}}</p>
-        </div>
-        <div class="panel-footer">
-          <span class="dig-it" v-on:click="addDig(item['.key'], user.uid)">
-            <button class="btn btn-default">
-              <i class="fa fa-hand-peace-o" aria-hidden="true"></i> I dig it!
-            </button>
-          </span>
-          <span class="badge">{{item.topic}}</span>
-          <p>{{item.user}}</p>
-        </div>
-      </div>
-    </div>
+    <suggestion-list></suggestion-list>
 
   </div>
 
@@ -74,8 +47,9 @@
 <script>
 import firebaseApp from './database.js';
 import HeaderNav from './components/HeaderNav';
+import SuggestionList from './components/SuggestionList';
 import FooterArea from './components/Footer';
-const suggestionRef = firebaseApp.database().ref('suggestions');
+// const suggestionRef = firebaseApp.database().ref('suggestions');
 
 const developmentTopics = ["Android", "Business", "C#", "CSS", "Databases", "Design", "Development Tools", "Digital Literacy", "Game Development", "HTML", "iOS", "Java", "Javascript", "PHP", "Python", "Ruby", "Wordpress"];
 
@@ -83,11 +57,12 @@ export default {
   name: 'app',
   components: {
     HeaderNav,
-    FooterArea
+    FooterArea,
+    SuggestionList
   },
-  firebase: {
-    items: suggestionRef
-  },
+  // firebase: {
+  //   items: suggestionRef
+  // },
   data () {
     return {
       pageTitle: 'Suggestions',
@@ -102,13 +77,26 @@ export default {
   },
   methods: {
     submitSuggestion: function() {
+      // post data
       var newSuggestion = {
         comment: this.comment,
         topic: this.topicSelected,
-        user: this.user.displayName
+        user: this.user.displayName,
+        date: Date.now()
       };
 
-      this.$firebaseRefs.items.push(newSuggestion);
+      // new post key
+      const newKey = firebaseApp.database().ref().child('suggestions').push().key;
+
+      // updates in multiple places
+      var updates = {};
+      updates['suggestions/' + newKey] = newSuggestion;
+      updates['users/' + this.user.uid + '/posts/' + newKey] = newSuggestion;
+
+      //this.$firebaseRefs.items.push(newSuggestion);
+      firebaseApp.database().ref().update(updates);
+
+      console.log(this.user.uid);
       this.comment = "";
       this.topicSelected = "";
     },

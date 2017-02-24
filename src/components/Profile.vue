@@ -4,7 +4,7 @@
 
   <div class="container profile-wrap">
     <h4>{{user.displayName}}</h4>
-
+    <p id="userID">{{user.uid}}</p>
 
     <form v-on:submit.prevent="updateUser">
       <div class="form-group">
@@ -20,6 +20,24 @@
     <button class="btn btn-danger logout" v-on:click="logout">Logout</button>
   </div>
 
+  <div class="suggestions-wrap">
+    <div class="panel panel-default suggestion-item" v-for="(suggestion,key) in suggestions">
+      <div class="panel-body">
+        {{suggestion.comment}}
+        <!-- <p>Key: {{item['.key']}}</p> -->
+      </div>
+      <div class="panel-footer">
+        <span class="dig-it" v-on:click="addDig(item['.key'], user.uid)">
+          <button class="btn btn-default">
+            <i class="fa fa-hand-peace-o" aria-hidden="true"></i> I dig it!
+          </button>
+        </span>
+        <span class="badge">{{suggestion.topic}}</span>
+        <p>{{suggestion.user}}</p>
+      </div>
+    </div>
+  </div>
+
   <footer-area></footer-area>
 </div>
 </template>
@@ -31,11 +49,18 @@ import HeaderNav from './HeaderNav';
 import firebaseApp from '../database.js';
 const auth = firebaseApp.auth();
 
+var id = document.getElementById('userID').innerHTML;
+console.log(id);
+const userSuggestions = firebaseApp.database().ref('users').child(id + '/posts');
+
 export default {
   name: "profile",
   components: {
     HeaderNav,
     FooterArea
+  },
+  firebase: {
+    suggestions: userSuggestions
   },
   data () {
     return {
@@ -86,6 +111,10 @@ export default {
 .profile-wrap button.logout {
   display: block;
   margin: 75px auto 0;
+}
+
+.profile-wrap h4 {
+  text-align: center;
 }
 
 form input {
