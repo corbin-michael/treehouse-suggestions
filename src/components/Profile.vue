@@ -51,7 +51,7 @@ const auth = firebaseApp.auth();
 // var id = document.getElementById('userID').innerHTML;
 // console.log(id);
 // const userSuggestions = firebaseApp.database().ref('users').child(id + '/posts');
-console.log();
+//console.log('Params: ' + this.$route.params.id);
 
 export default {
   name: "profile",
@@ -59,9 +59,11 @@ export default {
     HeaderNav,
     FooterArea
   },
-  firebase: {
+  firebase: function() {
     // not working
-    suggestions: firebaseApp.database().ref('users').child(this.id + '/posts')
+    return {
+      suggestions: firebaseApp.database().ref('users').child(this.id + '/posts')
+    }
   },
   data () {
     return {

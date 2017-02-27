@@ -12,7 +12,7 @@
             <router-link :to="{name: 'user', params: {id: userID}}" class="btn btn-default" v-if="username">{{username}}</router-link>
             <router-link to="/profile" class="btn btn-default" v-else>Profile</router-link>
           </div>
-          <div class="header-nav" v-if="!checkIfLoggedIn && $route.path != '/profile'">
+          <div class="header-nav" v-if="!checkIfLoggedIn">
             <router-link to="/login" class="btn btn-default">Login</router-link>
             <router-link to="/create-account" class="btn btn-success">Create Account</router-link>
           </div>
