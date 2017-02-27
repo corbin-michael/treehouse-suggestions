@@ -3,8 +3,7 @@
   <header-nav :pageTitle="pageTitle"></header-nav>
 
   <div class="container profile-wrap">
-    <h4>{{user.displayName}}</h4>
-    <p id="userID">{{user.uid}}</p>
+    <h4>{{user.displayName}} - {{this.$route.params.id}}</h4>
 
     <form v-on:submit.prevent="updateUser">
       <div class="form-group">
@@ -49,9 +48,10 @@ import HeaderNav from './HeaderNav';
 import firebaseApp from '../database.js';
 const auth = firebaseApp.auth();
 
-var id = document.getElementById('userID').innerHTML;
-console.log(id);
-const userSuggestions = firebaseApp.database().ref('users').child(id + '/posts');
+// var id = document.getElementById('userID').innerHTML;
+// console.log(id);
+// const userSuggestions = firebaseApp.database().ref('users').child(id + '/posts');
+console.log();
 
 export default {
   name: "profile",
@@ -60,7 +60,8 @@ export default {
     FooterArea
   },
   firebase: {
-    suggestions: userSuggestions
+    // not working
+    suggestions: firebaseApp.database().ref('users').child(this.id + '/posts')
   },
   data () {
     return {
@@ -68,7 +69,8 @@ export default {
       user: '',
       loggedIn: false,
       username: '',
-      usernameCheck: false
+      usernameCheck: false,
+      id: this.$route.params.id
     }
   },
   methods: {
@@ -92,6 +94,7 @@ export default {
   },
   beforeMount() {
     var user = firebaseApp.auth().currentUser;
+    console.log(user);
     if (user != null) {
       this.user = firebaseApp.auth().currentUser;
       this.loggedIn = true;

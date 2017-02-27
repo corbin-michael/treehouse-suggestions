@@ -9,7 +9,7 @@
         </h5>
         <div class="header-links">
           <div class="header-nav" v-if="checkIfLoggedIn">
-            <router-link to="/profile" class="btn btn-default" v-if="username">{{username}}</router-link>
+            <router-link :to="{name: 'user', params: {id: userID}}" class="btn btn-default" v-if="username">{{username}}</router-link>
             <router-link to="/profile" class="btn btn-default" v-else>Profile</router-link>
           </div>
           <div class="header-nav" v-if="!checkIfLoggedIn && $route.path != '/profile'">

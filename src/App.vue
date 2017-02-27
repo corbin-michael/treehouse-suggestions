@@ -1,6 +1,6 @@
 <template>
 <div id="form-page">
-  <header-nav :checkIfLoggedIn="loggedIn" :pageTitle="pageTitle" :username="user.displayName"></header-nav>
+  <header-nav :checkIfLoggedIn="loggedIn" :pageTitle="pageTitle" :username="user.displayName" :userID="user.uid"></header-nav>
 
   <div class="container">
 
