@@ -7,9 +7,9 @@
       </div>
       <div class="panel-footer">
         <span class="dig-it" v-on:click="addDig(item['.key'], user.uid)">
-          <button class="btn btn-default">
+          <!-- <button class="btn btn-default">
             <i class="fa fa-hand-peace-o" aria-hidden="true"></i> I dig it!
-          </button>
+          </button> -->
         </span>
         <span class="badge">{{item.topic}}</span>
         <p>{{item.user}}</p>
