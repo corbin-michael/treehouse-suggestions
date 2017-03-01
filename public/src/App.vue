@@ -14,7 +14,6 @@
     <div class="clearfix" v-if="loggedIn">
       <div class="form">
         <form v-on:submit.prevent="submitSuggestion">
-
           <div class="form-group">
             <label for="suggestion">Suggestion</label>
             <textarea id="suggestion" placeholder="Suggestion goes here..." v-model="comment"></textarea>
@@ -30,7 +29,6 @@
           <div class="form-group">
             <button type="submit" class="btn btn-success">Submit</button>
           </div>
-
         </form>
       </div>
     </div>
@@ -45,6 +43,7 @@
 </template>
 
 <script>
+import router from './main';
 import firebaseApp from './database.js';
 import HeaderNav from './components/HeaderNav';
 import SuggestionList from './components/SuggestionList';
@@ -74,6 +73,10 @@ export default {
       user: '',
       loggedIn: false
     }
+  },
+  beforeMount() {
+    this.fetchUser();
+    console.log("fetched");
   },
   methods: {
     submitSuggestion: function() {
@@ -105,15 +108,20 @@ export default {
         person: [person]
       });
       console.log("I dig it!");
+    },
+    fetchUser: function() {
+      console.log("fetching");
+      var authUser = firebaseApp.auth().onAuthStateChanged((authUser) => {
+        if ( authUser ) {
+          this.user = authUser;
+          this.loggedIn = true;
+        } else {
+          this.user = '';
+        }
+      });
     }
   },
-  beforeMount() {
-    var user = firebaseApp.auth().currentUser;
-    if (user != null) {
-      this.user = firebaseApp.auth().currentUser;
-      this.loggedIn = true;
-    }
-  }
+
 }
 </script>
 

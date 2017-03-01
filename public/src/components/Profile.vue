@@ -1,11 +1,12 @@
 <template>
 <div id="profile-page">
-  <header-nav :pageTitle="pageTitle"></header-nav>
+  <header-nav :pageTitle="'You a.k.a ' + user.displayName" :checkIfLoggedIn="loggedIn"></header-nav>
 
   <div class="container profile-wrap">
-    <h4>{{user.displayName}} - {{this.$route.params.id}}</h4>
+    <button class="btn btn-danger logout" v-on:click="logout">Logout</button>
+    <!-- <h4>ID: {{this.$route.params.id}}</h4> -->
 
-    <form v-on:submit.prevent="updateUser">
+    <!-- <form v-on:submit.prevent="updateUser">
       <div class="form-group">
         <label>Username</label>
         <input type="text" v-model="username" v-bind:placeholder="user.displayName">
@@ -14,12 +15,18 @@
       <div class="form-group">
         <button type="submit" class="btn btn-success">Update</button>
       </div>
-    </form>
+    </form> -->
 
-    <button class="btn btn-danger logout" v-on:click="logout">Logout</button>
+
   </div>
 
   <div class="suggestions-wrap">
+    <h4>Your Suggestions:</h4>
+
+    <div v-if="suggestions.length == 0">
+      <p>You have no suggestions at this time. Get to thinkin!</p>
+    </div>
+
     <div class="panel panel-default suggestion-item" v-for="(suggestion,key) in suggestions">
       <div class="panel-body">
         {{suggestion.comment}}
@@ -95,18 +102,15 @@ export default {
     }
   },
   beforeMount() {
-    var user = firebaseApp.auth().currentUser;
-    console.log(user);
-    if (user != null) {
-      this.user = firebaseApp.auth().currentUser;
-      this.loggedIn = true;
-
-      if (this.user.displayName != null) {
-        this.usernameCheck = true
+    var authUser = firebaseApp.auth().onAuthStateChanged((authUser) => {
+      if ( authUser ) {
+        this.user = authUser;
+        this.loggedIn = true;
       } else {
-        this.usernameCheck = false
+        this.user = '';
       }
-    }
+
+    });
   }
 }
 </script>
@@ -115,7 +119,7 @@ export default {
 <style scoped>
 .profile-wrap button.logout {
   display: block;
-  margin: 75px auto 0;
+  margin-bottom: 75px;
 }
 
 .profile-wrap h4 {
@@ -130,6 +134,11 @@ form input {
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+.logout {
   display: block;
   margin: 0 auto;
 }
