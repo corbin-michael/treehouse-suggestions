@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <suggestion-list></suggestion-list>
+    <suggestion-list :userID="user.uid"></suggestion-list>
 
   </div>
 
@@ -85,7 +85,8 @@ export default {
         comment: this.comment,
         topic: this.topicSelected,
         user: this.user.displayName,
-        date: Date.now()
+        date: Date.now(),
+        digs: ''
       };
 
       // new post key
@@ -102,12 +103,6 @@ export default {
       console.log(this.user.uid);
       this.comment = "";
       this.topicSelected = "";
-    },
-    addDig: function(itemKey, person) {
-      this.$firebaseRefs.items.child(itemKey).push({
-        person: [person]
-      });
-      console.log("I dig it!");
     },
     fetchUser: function() {
       console.log("fetching");
