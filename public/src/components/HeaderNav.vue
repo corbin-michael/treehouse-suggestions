@@ -52,10 +52,10 @@
 
 .header-nav {
   display: flex;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  position: relative;
+  top: 10px;
 }
 
 .header-global h5 a {

@@ -27,7 +27,7 @@
           </div>
 
           <div class="form-group">
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success" v-bind:class="[comment ? '' : 'disabled', topicSelected ? '' : 'disabled']">Submit</button>
           </div>
         </form>
       </div>
@@ -50,7 +50,7 @@ import SuggestionList from './components/SuggestionList';
 import FooterArea from './components/Footer';
 // const suggestionRef = firebaseApp.database().ref('suggestions');
 
-const developmentTopics = ["Android", "Business", "C#", "CSS", "Databases", "Design", "Development Tools", "Digital Literacy", "Game Development", "HTML", "iOS", "Java", "Javascript", "PHP", "Python", "Ruby", "Wordpress"];
+const developmentTopics = ["Android", "API", "Business", "C#", "CSS", "Data Analysis", "Databases", "Design", "Development Tools", "Digital Literacy", "Game Development", "HTML", "iOS", "Java", "Javascript", "PHP", "Python", "Ruby", "Virtual Reality", "Wordpress"];
 
 export default {
   name: 'app',
@@ -167,10 +167,13 @@ textarea {
   padding: 10px;
 }
 
+button[type="submit"] {
+  width: 100%;
+}
+
 .btn-success {
   background-color: #69C673;
   border-color: #69C673;
-  width: 100%;
   max-width: 450px;
   margin: 0 auto;
   display: block;
@@ -209,8 +212,79 @@ ul li {
   text-align: center;
 }
 
+.dig-it.digged {
+  background-color: #69C673;
+  color: #fff;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 4px;
+
+}
+
 .suggestion-item:hover {
   box-shadow: 0px 0px 6px 1px #c3c3c3;
+}
+
+
+.badge.android {
+  background-color: #5CB860;
+}
+.badge.api {
+  background-color: #993c50;
+}
+.badge.business {
+  background-color: #F9845B;
+}
+.badge.c-sharp {
+  background-color: #9e4d83;
+}
+.badge.css {
+  background-color: #3079AB;
+}
+.badge.data-analysis {
+  background-color: #645a7e;
+}
+.badge.databases {
+  background-color: #eb7728;
+}
+.badge.design {
+  background-color: #e59a13;
+}
+.badge.developemnt-tools {
+  background-color: #637a91;
+}
+.badge.digital-literacy {
+  background-color: #c38cd4;
+}
+.badge.game-development {
+  background-color: #20898c;
+}
+.badge.html {
+  background-color: #39ADD1;
+}
+.badge.ios {
+  background-color: #53BBB4;
+}
+.badge.java {
+  background-color: #2c9676;
+}
+.badge.javascript {
+  background-color: #c25975;
+}
+.badge.php {
+  background-color: #7D669E;
+}
+.badge.python {
+  background-color: #f092b0;
+}
+.badge.ruby {
+  background-color: #e15258;
+}
+.badge.virtual-reality {
+  background-color: #95D26C;
+}
+.badge.wordpress {
+  background-color: #838CC7
 }
 
 </style>

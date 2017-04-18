@@ -27,19 +27,21 @@
       <p>You have no suggestions at this time. Get to thinkin!</p>
     </div>
 
-    <div class="panel panel-default suggestion-item" v-for="(suggestion,key) in suggestions">
-      <div class="panel-body">
-        {{suggestion.comment}}
-        <!-- <p>Key: {{item['.key']}}</p> -->
-      </div>
-      <div class="panel-footer">
-        <span class="dig-it" v-on:click="addDig(item['.key'], user.uid)">
-          <button class="btn btn-default">
-            <i class="fa fa-hand-peace-o" aria-hidden="true"></i> I dig it!
-          </button>
-        </span>
-        <span class="badge">{{suggestion.topic}}</span>
-        <p>{{suggestion.user}}</p>
+    <div v-if="suggestions.length > 0">
+      <div class="panel panel-default suggestion-item" v-for="(suggestion,key) in suggestions">
+        <div class="panel-body">
+          {{suggestion.comment}}
+        </div>
+        <div class="panel-footer">
+          <span class="dig-it">
+            {{Object.keys(suggestion.digs).length}}
+            <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+            <br />
+            Digs
+          </span>
+          <span class="badge" v-bind:class="suggestion.topic | toLowerCase | convertCSharp">{{suggestion.topic}}</span>
+          <p class="post-name-date">{{suggestion.user}} - <i>{{suggestion.date | readableDate}}</i></p>
+        </div>
       </div>
     </div>
   </div>
@@ -54,11 +56,6 @@ import FooterArea from '../components/Footer';
 import HeaderNav from './HeaderNav';
 import firebaseApp from '../database.js';
 const auth = firebaseApp.auth();
-
-// var id = document.getElementById('userID').innerHTML;
-// console.log(id);
-// const userSuggestions = firebaseApp.database().ref('users').child(id + '/posts');
-//console.log('Params: ' + this.$route.params.id);
 
 export default {
   name: "profile",
@@ -111,6 +108,32 @@ export default {
       }
 
     });
+  },
+  filters: {
+    readableDate: (value) => {
+      if (value) {
+        let newValue = new Date(value);
+        let readable = newValue.toDateString();
+        return readable;
+      }
+    },
+    toLowerCase: (string) => {
+      if ( string ) {
+        return string.toLowerCase();
+      }
+    },
+    convertCSharp: (string) => {
+      if ( string ) {
+        let newString = string;
+        if (string.includes('#')) {
+          return newString = "c-sharp";
+        } else if (string.includes(" ")) {
+          return newString.replace(/\s/g, "-");
+        } else {
+          return newString;
+        }
+      }
+    }
   }
 }
 </script>
