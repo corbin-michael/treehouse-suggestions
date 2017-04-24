@@ -48,9 +48,10 @@ import firebaseApp from './database.js';
 import HeaderNav from './components/HeaderNav';
 import SuggestionList from './components/SuggestionList';
 import FooterArea from './components/Footer';
-// const suggestionRef = firebaseApp.database().ref('suggestions');
 
 const developmentTopics = ["Android", "API", "Business", "C#", "CSS", "Data Analysis", "Databases", "Design", "Development Tools", "Digital Literacy", "Game Development", "HTML", "iOS", "Java", "Javascript", "PHP", "Python", "Ruby", "Virtual Reality", "Wordpress"];
+
+const suggestionRef = firebaseApp.database().ref('suggestions');
 
 export default {
   name: 'app',
@@ -59,9 +60,9 @@ export default {
     FooterArea,
     SuggestionList
   },
-  // firebase: {
-  //   items: suggestionRef
-  // },
+  firebase: {
+    count: suggestionRef
+  },
   data () {
     return {
       pageTitle: 'Suggestions',
@@ -71,7 +72,8 @@ export default {
       topics: developmentTopics,
       topicSelected: "",
       user: '',
-      loggedIn: false
+      loggedIn: false,
+      count: []
     }
   },
   beforeMount() {
@@ -84,9 +86,10 @@ export default {
       var newSuggestion = {
         comment: this.comment,
         topic: this.topicSelected,
-        user: this.user.displayName,
+        user: this.user.uid,
         date: Date.now(),
-        digs: ''
+        digs: '',
+        order: (this.count.length + 1) * -1,
       };
 
       // new post key
@@ -115,8 +118,7 @@ export default {
         }
       });
     }
-  },
-
+  }
 }
 </script>
 
@@ -193,6 +195,8 @@ ul li {
   margin-bottom: 150px;
   max-width: 950px;
   margin: 0 auto;
+  /*display: flex;
+  flex-direction: column-reverse;*/
 }
 
 .suggestion-item {

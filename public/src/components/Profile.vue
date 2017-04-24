@@ -66,7 +66,7 @@ export default {
   firebase: function() {
     // not working
     return {
-      suggestions: firebaseApp.database().ref('users').child(this.id + '/posts')
+      suggestions: firebaseApp.database().ref('suggestions')
     }
   },
   data () {

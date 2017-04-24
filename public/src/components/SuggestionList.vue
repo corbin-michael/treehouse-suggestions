@@ -1,6 +1,8 @@
 <template>
   <div class="suggestions-wrap">
+
     <div class="panel panel-default suggestion-item" v-for="(item,key) in items">
+
       <div class="panel-body">
         {{item.comment}}
       </div>
@@ -38,10 +40,11 @@
         </div>
         <span class="badge" v-bind:class="item.topic | toLowerCase | convertCSharp">{{item.topic}}</span>
         <p class="post-name-date">{{item.user}} - <i>{{item.date | readableDate}}</i></p>
-      </div>
-    </div>
+      </div> <!-- /panel-footer -->
 
-  </div>
+
+    </div> <!-- /panel -->
+  </div> <!-- /suggestion wrap -->
 
 </template>
 
@@ -50,13 +53,13 @@
 import firebaseApp from '../database.js';
 const suggestionRef = firebaseApp.database().ref('suggestions');
 
-
-
 export default {
   name: "suggestionList",
   props: ['userID'],
-  firebase: {
-    items: suggestionRef
+  firebase() {
+    return {
+      items: suggestionRef.orderByChild('order')
+    }
   },
   data() {
     return {
