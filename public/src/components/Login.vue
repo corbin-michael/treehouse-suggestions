@@ -75,6 +75,16 @@ export default {
 </script>
 
 <style scoped>
+
+  .form-group {
+    max-width: 450px;
+    margin: 10px auto;
+  }
+
+  .form-group label {
+    margin-bottom: 5px;
+  }
+
   input {
     width: 100%;
     max-width: 450px;

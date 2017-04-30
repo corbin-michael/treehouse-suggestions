@@ -1,26 +1,12 @@
 <template>
 <div id="profile-page">
-  <header-nav :pageTitle="'You a.k.a ' + user.displayName" :checkIfLoggedIn="loggedIn"></header-nav>
+  <header-nav :pageTitle="user.displayName + ' (you)'" :checkIfLoggedIn="loggedIn"></header-nav>
 
   <div class="container profile-wrap">
     <button class="btn btn-danger logout" v-on:click="logout">Logout</button>
-    <!-- <h4>ID: {{this.$route.params.id}}</h4> -->
-
-    <!-- <form v-on:submit.prevent="updateUser">
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" v-model="username" v-bind:placeholder="user.displayName">
-      </div>
-
-      <div class="form-group">
-        <button type="submit" class="btn btn-success">Update</button>
-      </div>
-    </form> -->
-
-
   </div>
 
-  <div class="suggestions-wrap">
+  <div class="container suggestions-wrap">
     <h4>Your Suggestions:</h4>
 
     <div v-if="suggestions.length == 0">
@@ -28,19 +14,23 @@
     </div>
 
     <div v-if="suggestions.length > 0">
-      <div class="panel panel-default suggestion-item" v-for="(suggestion,key) in suggestions">
+      <div class="panel panel-default suggestion-item" v-for="(suggestion,key) in suggestions" v-bind:class="suggestion.topic | toLowerCase | convertCSharp">
         <div class="panel-body">
-          {{suggestion.comment}}
+          <p class="post-name-date">
+            <span class="name">{{suggestion.username}}</span>
+            <span class="date">{{suggestion.date | readableDate}}</span>
+          </p>
         </div>
         <div class="panel-footer">
-          <span class="dig-it">
+          <span class="dig-it" :class="{'digged':Object.keys(suggestion.digs).length > 0}">
             {{Object.keys(suggestion.digs).length}}
             <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
             <br />
             Digs
           </span>
           <span class="badge" v-bind:class="suggestion.topic | toLowerCase | convertCSharp">{{suggestion.topic}}</span>
-          <p class="post-name-date">{{suggestion.user}} - <i>{{suggestion.date | readableDate}}</i></p>
+          <h4>{{suggestion.comment}}</h4>
+
         </div>
       </div>
     </div>
@@ -66,7 +56,7 @@ export default {
   firebase: function() {
     // not working
     return {
-      suggestions: firebaseApp.database().ref('suggestions')
+      suggestions: firebaseApp.database().ref('suggestions').orderByChild('user').equalTo(this.$route.params.id)
     }
   },
   data () {
@@ -149,20 +139,193 @@ export default {
   text-align: center;
 }
 
-form input {
-  width: 100%;
-  max-width: 450px;
-  height: 40px;
-  background-color: rgba(211, 211, 211, 0.09);
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  padding: 10px;
-  display: block;
-  margin: 0 auto;
-}
-
 .logout {
   display: block;
   margin: 0 auto;
 }
+
+.suggestions-wrap {
+  clear: both;
+  margin-bottom: 150px;
+  max-width: 950px;
+  margin: 0 auto;
+  /*display: flex;
+  flex-direction: column-reverse;*/
+}
+
+.suggestion-item {
+  transition: box-shadow .2s ease-in;
+}
+
+.suggestion-item .dig-it {
+  font-size: 14px;
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.dig-it.digged {
+  background-color: #69C673;
+  color: #fff;
+
+}
+
+.suggestion-item:hover {
+  box-shadow: 0px 0px 6px 1px #c3c3c3;
+}
+
+.panel {
+  margin-bottom: 35px;
+}
+
+.panel-body {
+  padding: 0 15px;
+  color: #fff;
+}
+
+.panel-footer {
+  position: relative;
+  background-color: #fff;
+}
+
+.panel-footer h4 {
+  width: calc(100% - 150px);
+}
+
+.post-name-date {
+  margin: 0;
+  padding: 3px 0;
+}
+
+.post-name-date .date {
+  float: right;
+}
+
+.badge.android,
+.panel.android,
+.panel.android .panel-body {
+  background-color: #5CB860;
+  border: 1px solid #5CB860;
+}
+.badge.api,
+.panel.api,
+.panel.api .panel-body {
+  background-color: #993c50;
+  border: 1px solid #993c50;
+}
+.badge.business,
+.panel.business,
+.panel.business .panel-body {
+  background-color: #F9845B;
+  border: 1px solid #F9845B;
+}
+.badge.c-sharp,
+.panel.c-sharp,
+.panel.c-sharp .panel-body {
+  background-color: #9e4d83;
+  border: 1px solid #9e4d83;
+}
+.badge.css,
+.panel.css,
+.panel.css .panel-body {
+  background-color: #3079AB;
+  border: 1px solid #3079AB;
+}
+.badge.data-analysis,
+.panel.data-analysis,
+.panel.data-analysis .panel-body {
+  background-color: #645a7e;
+  border: 1px solid #645a7e;
+}
+.badge.databases,
+.panel.databases,
+.panel.databases .panel-body {
+  background-color: #eb7728;
+  border: 1px solid #eb7728;
+}
+.badge.design,
+.panel.design,
+.panel.design .panel-body {
+  background-color: #e59a13;
+  border: 1px solid #e59a13;
+}
+.badge.developemnt-tools,
+.panel.developemnt-tools,
+.panel.developemnt-tools .panel-body {
+  background-color: #637a91;
+  border: 1px solid #637a91;
+}
+.badge.digital-literacy,
+.panel.digital-literacy,
+.panel.digital-literacy .panel-body {
+  background-color: #c38cd4;
+  border: 1px solid #c38cd4;
+}
+.badge.game-development,
+.panel.game-development,
+.panel.game-development .panel-body {
+  background-color: #20898c;
+  border: 1px solid #20898c;
+}
+.badge.html,
+.panel.html,
+.panel.html .panel-body {
+  background-color: #39ADD1;
+  border: 1px solid #39ADD1;
+}
+.badge.ios,
+.panel.ios,
+.panel.ios .panel-body {
+  background-color: #53BBB4;
+  border: 1px solid #53BBB4;
+}
+.badge.java,
+.panel.java,
+.panel.java .panel-body {
+  background-color: #2c9676;
+  border: 1px solid #2c9676;
+}
+.badge.javascript,
+.panel.javascript,
+.panel.javascript .panel-body {
+  background-color: #c25975;
+  border: 1px solid #c25975;
+}
+.badge.php,
+.panel.php,
+.panel.php .panel-body {
+  background-color: #7D669E;
+  border: 1px solid #7D669E;
+}
+.badge.python,
+.panel.python,
+.panel.python .panel-body {
+  background-color: #f092b0;
+  border: 1px solid #f092b0;
+}
+.badge.ruby,
+.panel.ruby,
+.panel.ruby .panel-body {
+  background-color: #e15258;
+  border: 1px solid #e15258;
+}
+.badge.virtual-reality,
+.panel.virtual-reality,
+.panel.virtual-reality .panel-body {
+  background-color: #95D26C;
+  border: 1px solid #95D26C;
+}
+.badge.wordpress,
+.panel.wordpress,
+.panel.wordpress .panel-body {
+  background-color: #838CC7
+}
+
 </style>

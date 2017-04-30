@@ -87,6 +87,7 @@ export default {
         comment: this.comment,
         topic: this.topicSelected,
         user: this.user.uid,
+        username: this.user.displayName,
         date: Date.now(),
         digs: '',
         order: (this.count.length + 1) * -1,
@@ -133,6 +134,10 @@ export default {
 .overview {
   max-width: 950px;
   margin: 0 auto;
+}
+
+.form {
+  margin-bottom: 50px;
 }
 
 label,
@@ -190,105 +195,9 @@ ul li {
   width: 148px;
 }
 
-.suggestions-wrap {
-  clear: both;
-  margin-bottom: 150px;
-  max-width: 950px;
-  margin: 0 auto;
-  /*display: flex;
-  flex-direction: column-reverse;*/
-}
-
-.suggestion-item {
-  transition: box-shadow .2s ease-in;
-}
-
-.panel-footer {
-  position: relative;
-}
-
-.suggestion-item .dig-it {
-  font-size: 18px;
-  position: absolute;
-  right: 25px;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-}
-
-.dig-it.digged {
-  background-color: #69C673;
-  color: #fff;
-  font-size: 14px;
-  padding: 6px 12px;
-  border-radius: 4px;
-
-}
-
-.suggestion-item:hover {
-  box-shadow: 0px 0px 6px 1px #c3c3c3;
-}
 
 
-.badge.android {
-  background-color: #5CB860;
-}
-.badge.api {
-  background-color: #993c50;
-}
-.badge.business {
-  background-color: #F9845B;
-}
-.badge.c-sharp {
-  background-color: #9e4d83;
-}
-.badge.css {
-  background-color: #3079AB;
-}
-.badge.data-analysis {
-  background-color: #645a7e;
-}
-.badge.databases {
-  background-color: #eb7728;
-}
-.badge.design {
-  background-color: #e59a13;
-}
-.badge.developemnt-tools {
-  background-color: #637a91;
-}
-.badge.digital-literacy {
-  background-color: #c38cd4;
-}
-.badge.game-development {
-  background-color: #20898c;
-}
-.badge.html {
-  background-color: #39ADD1;
-}
-.badge.ios {
-  background-color: #53BBB4;
-}
-.badge.java {
-  background-color: #2c9676;
-}
-.badge.javascript {
-  background-color: #c25975;
-}
-.badge.php {
-  background-color: #7D669E;
-}
-.badge.python {
-  background-color: #f092b0;
-}
-.badge.ruby {
-  background-color: #e15258;
-}
-.badge.virtual-reality {
-  background-color: #95D26C;
-}
-.badge.wordpress {
-  background-color: #838CC7
-}
+
+
 
 </style>
