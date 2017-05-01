@@ -22,14 +22,15 @@
           </p>
         </div>
         <div class="panel-footer">
+          <span class="badge" v-bind:class="suggestion.topic | toLowerCase | convertCSharp">{{suggestion.topic}}</span>
+          <h4>{{suggestion.comment}}</h4>
+
           <span class="dig-it" :class="{'digged':Object.keys(suggestion.digs).length > 0}">
             {{Object.keys(suggestion.digs).length}}
             <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
             <br />
             Digs
           </span>
-          <span class="badge" v-bind:class="suggestion.topic | toLowerCase | convertCSharp">{{suggestion.topic}}</span>
-          <h4>{{suggestion.comment}}</h4>
 
         </div>
       </div>
@@ -206,6 +207,27 @@ export default {
 
 .post-name-date .date {
   float: right;
+}
+
+@media screen and (max-width: 600px) {
+  .panel-footer h4 {
+    width: 100%;
+  }
+
+  .panel-footer .btn {
+    padding: 2px 12px;
+    width: 100%;
+  }
+
+  .suggestion-item .dig-it {
+    position: relative;
+    right: 0;
+    top: 0;
+    transform: translateY(0);
+    display: block;
+    width: 100%;
+  }
+  
 }
 
 .badge.android,

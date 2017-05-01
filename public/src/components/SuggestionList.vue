@@ -1,6 +1,5 @@
 <template>
   <div class="suggestions-wrap">
-
     <div class="panel panel-default suggestion-item" v-for="(item,key) in items" v-bind:class="item.topic | toLowerCase | convertCSharp">
 
       <div class="panel-body">
@@ -11,22 +10,28 @@
       </div>
 
       <div class="panel-footer">
+
+        <span class="badge" v-bind:class="item.topic | toLowerCase | convertCSharp">{{item.topic}}</span>
+
+        <h4>{{item.comment}}</h4>
+
         <div v-show="userID">
-          <div v-if="Object.values(item.digs).indexOf(userID) > -1">
+          <div v-if="Object.keys(item.digs).map(i => item.digs[i].indexOf(userID) > -1) && Object.keys(item.digs).length > 0">
             <span class="dig-it digged">
               {{Object.keys(item.digs).length}}
               <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
               <br />
-              I can dig it!
+              I dig it!
             </span>
           </div>
           <div v-else>
+            <!-- addDig(item['.key'], userID) -->
             <span class="dig-it" v-on:click="addDig(item['.key'], userID)">
               <button class="btn btn-default">
                 {{Object.keys(item.digs).length}}
                 <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
                 <br />
-                Can you dig it?
+                Dig it?
               </button>
             </span>
           </div>
@@ -42,9 +47,7 @@
           </span>
         </div>
 
-        <span class="badge" v-bind:class="item.topic | toLowerCase | convertCSharp">{{item.topic}}</span>
 
-        <h4>{{item.comment}}</h4>
       </div> <!-- /panel-footer -->
 
 
@@ -64,7 +67,8 @@ export default {
   props: ['userID'],
   firebase() {
     return {
-      items: suggestionRef.orderByChild('order')
+      items: suggestionRef.orderByChild('order'),
+      topItems: suggestionRef.orderByChild('totalDigs')
     }
   },
   data() {
@@ -75,9 +79,15 @@ export default {
   methods: {
     addDig: function(itemKey, personWhoLikes) {
       this.$firebaseRefs.items.child(itemKey).child('digs').push(personWhoLikes);
-      //firebaseApp.database().ref('users').child(this.userID + '/posts/' + itemKey).child('digs').push(personWhoLikes);
-      console.log("I dig it!");
-    }
+    },
+    // testDig: function(itemKey, personWhoLikes) {
+    //   this.$firebaseRefs.items.child(itemKey).child('digs').push(personWhoLikes);
+    //   this.$firebaseRefs.items.child(itemKey).child('totalDigs').once('value').then((snapshot) => {
+    //     var currentCount = snapshot.val();
+    //     var newCount = (currentCount + 1) * -1;
+    //     firebaseApp.database().ref('suggestions').child(itemKey).update({totalDigs: newCount});
+    //   });
+    // }
   },
   filters: {
     readableDate: (value) => {
@@ -162,6 +172,28 @@ export default {
 
 .post-name-date .date {
   float: right;
+}
+
+@media screen and (max-width: 600px) {
+  .panel-footer h4 {
+    width: 100%;
+  }
+
+  .panel-footer .btn {
+    padding: 2px 12px;
+    width: 100%;
+  }
+
+  .suggestion-item .dig-it {
+    position: relative;
+    right: 0;
+    top: 0;
+    transform: translateY(0);
+  }
+  .dig-it.digged {
+    width: 100%;
+    display: block;
+  }
 }
 
 .badge.android,

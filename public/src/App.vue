@@ -7,7 +7,7 @@
     <div class="overview">
       <p>These are suggestions for the website <a href="http://www.teamtreehouse.com" target="_blank">Treehouse</a> and are intended to bring awareness to the courses we would like them to make. This site is not an affiliate of Treehouse, but hope they will look at these suggestions and do something with it.</p>
       <div class="alert alert-warning" role="alert" v-if="!loggedIn">
-        <p>Please <router-link to="/login">login</router-link> or <router-link to="/create-account">create an account</router-link> to leave suggestions.</p>
+        <p>Please <router-link to="/login">login</router-link> or <router-link to="/create-account">create an account</router-link> to leave suggestions and dig suggestions.</p>
       </div>
     </div>
 
@@ -90,6 +90,7 @@ export default {
         username: this.user.displayName,
         date: Date.now(),
         digs: '',
+        totalDigs: 0,
         order: (this.count.length + 1) * -1,
       };
 
@@ -110,7 +111,7 @@ export default {
     },
     fetchUser: function() {
       console.log("fetching");
-      var authUser = firebaseApp.auth().onAuthStateChanged((authUser) => {
+      firebaseApp.auth().onAuthStateChanged((authUser) => {
         if ( authUser ) {
           this.user = authUser;
           this.loggedIn = true;

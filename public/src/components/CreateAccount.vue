@@ -22,6 +22,7 @@
         </div>
 
       </form>
+      <router-link to="/">Suggestions</router-link>
     </div>
   </div>
 
@@ -71,6 +72,9 @@ export default {
         }, function(error) {
           console.log("error adding: " + error);
         });
+
+        // var userID = firebaseApp.auth().currentUser.uid;
+        // router.push({path: "/profile/" + userID});
 
       }).catch(function(error) {
         // Handle Errors here.

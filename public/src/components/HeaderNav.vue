@@ -77,4 +77,18 @@
 .header-nav a {
   margin: 0 10px;
 }
+
+@media screen and (max-width: 600px) {
+  .header-nav {
+    display: block;
+    clear: both;
+    top: 0;
+  }
+
+  .header-nav a {
+    width: 100%;
+    margin: 0 0 5px;
+    max-width: none;
+  }
+}
 </style>
