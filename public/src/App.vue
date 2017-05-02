@@ -78,7 +78,6 @@ export default {
   },
   beforeMount() {
     this.fetchUser();
-    console.log("fetched");
   },
   methods: {
     submitSuggestion: function() {
@@ -102,15 +101,12 @@ export default {
       updates['suggestions/' + newKey] = newSuggestion;
       updates['users/' + this.user.uid + '/posts/' + newKey] = newSuggestion;
 
-      //this.$firebaseRefs.items.push(newSuggestion);
       firebaseApp.database().ref().update(updates);
 
-      console.log(this.user.uid);
       this.comment = "";
       this.topicSelected = "";
     },
     fetchUser: function() {
-      console.log("fetching");
       firebaseApp.auth().onAuthStateChanged((authUser) => {
         if ( authUser ) {
           this.user = authUser;

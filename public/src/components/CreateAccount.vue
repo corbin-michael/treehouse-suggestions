@@ -3,7 +3,7 @@
   <header-nav :pageTitle="pageTitle"></header-nav>
 
   <div class="container">
-    <div class="login-form">
+    <div class="login-form" v-show="!youThere">
       <form v-on:submit.prevent="createUser">
         <div class="form-group">
           <label>Email</label>
@@ -20,10 +20,15 @@
         <div class="form-group">
           <button type="submit" class="btn btn-success">Create Account</button>
         </div>
-
       </form>
-      <router-link to="/">Suggestions</router-link>
     </div>
+
+    <div class="create_thankyou" v-show="youThere">
+      <h3>Thank you for signing up!</h3>
+      <p>Now go make some suggestions and if you see one you like make sure you let the person know you dig their idea!</p>
+      <router-link to="/"><p class="btn btn-success">Suggestions</p></router-link>
+    </div>
+
   </div>
 
   <footer-area></footer-area>
@@ -50,31 +55,33 @@ export default {
         email: '',
         username: '',
         password: ''
-      }
+      },
+      youThere: false
     }
   },
   methods: {
     createUser: function() {
-      var newUserName = this.user.username;
+      var self = this;
+      //var newUserName = this.user.username;
       firebaseApp.auth().createUserWithEmailAndPassword(this.user.email, this.user.password).then(function(newUser) {
-        console.log(newUser);
+        console.log(self.user.username);
 
         // add user to DB under 'users'
         firebaseApp.database().ref('users').child(newUser.uid).set({
-          username: newUserName
+          username: self.user.username
         });
+
+        // created successfully show success message
+        self.youThere = true;
 
         // update profile with username aka displayName
         firebaseApp.auth().currentUser.updateProfile({
-          displayName: newUserName
+          displayName: self.user.username
         }).then(function() {
-          console.log("Hopefully displayname: ");
+
         }, function(error) {
           console.log("error adding: " + error);
         });
-
-        // var userID = firebaseApp.auth().currentUser.uid;
-        // router.push({path: "/profile/" + userID});
 
       }).catch(function(error) {
         // Handle Errors here.
@@ -82,7 +89,6 @@ export default {
         var errorMessage = error.message;
         console.log(errorMessage);
       });
-
     }
   }
 }
@@ -109,4 +115,15 @@ input {
   display: block;
   margin: 0 auto;
 }
+
+.create_thankyou {
+  max-width: 450px;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.create_thankyou a {
+  text-decoration: none;
+}
+
 </style>
